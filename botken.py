@@ -27,4 +27,8 @@ async def pass_gen(ctx, count_heh = 5):
 async def selamat_datang(ctx):
     await ctx.send("welcome")
 
-bot.run("TOKEN")
+@bot.command()
+async def tolong(ctx):
+    await ctx.send("apa ada yang bisa saya bantu?")
+
+bot.run("Token")
