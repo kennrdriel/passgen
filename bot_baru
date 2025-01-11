@@ -1,0 +1,96 @@
+from ken import gen_pass
+import discord
+from discord.ext import commands
+import os
+import random
+import requests
+
+
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hi! I am a bot {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+
+@bot.command()
+async def pass_gen(ctx, count_heh = 5):
+    await ctx.send(gen_pass(count_heh)) 
+
+@bot.command()
+async def selamat_datang(ctx):
+    await ctx.send("welcome")
+
+@bot.command()
+async def tolong(ctx):
+    await ctx.send("apa ada yang bisa saya bantu?")
+
+@bot.command()
+async def meme(ctx):
+    
+    random_image=random.choice(os.listdir('images'))
+    
+    with open(f'images/{random_image}', 'rb') as f:
+        
+        picture = discord.File(f)
+   
+    await ctx.send(file=picture)
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+@bot.command('duck')
+async def duck(ctx):
+    '''Setelah kita memanggil perintah bebek (duck), program akan memanggil fungsi get_duck_image_url'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+@bot.command()
+async def sampah(ctx):
+    await ctx.send("Sampah adalah material sisa dari aktivitas manusia, seperti rumah tangga, industri, dan perdagangan, yang terbagi menjadi organik (mudah terurai) dan anorganik (sulit terurai). Namun, ada juga sampah berbahaya yang mengandung zat beracun, korosif, mudah terbakar, atau reaktif, seperti baterai bekas, elektronik, limbah medis, dan bahan kimia rumah tangga. Sampah ini memerlukan penanganan khusus karena dapat mencemari lingkungan dan membahayakan kesehatan. Untuk mengurangi dampak negatifnya, pengelolaan terpadu melalui prinsip 3R (Reduce, Reuse, Recycle) sangat penting. Edukasi, teknologi ramah lingkungan, dan fasilitas pengelolaan limbah berbahaya membantu menciptakan lingkungan bersih, sehat, dan aman.?")
+
+@bot.command()
+async def organik(ctx):
+    await ctx.send("Sampah organik adalah limbah yang mudah terurai secara alami. Contohnya termasuk sisa makanan, daun kering, kulit buah, dan sayuran. Sampah jenis ini dapat diolah menjadi kompos yang berguna untuk menyuburkan tanah. Proses penguraian sampah organik melibatkan mikroorganisme yang mengubahnya menjadi bahan yang ramah lingkungan.")
+
+@bot.command()
+async def anorganik(ctx):
+    await ctx.send('Sampah anorganik adalah limbah yang sulit terurai, seperti plastik, kaca, logam, dan kertas. Sampah jenis ini membutuhkan waktu lama untuk terurai dan sering mencemari lingkungan. Oleh karena itu, pengelolaan yang tepat seperti daur ulang sangat penting. Sampah anorganik dapat diproses menjadi barang baru, mengurangi dampak buruk terhadap lingkungan.')
+
+@bot.command()
+async def sampah_berbahaya(ctx):
+    await ctx.send("Sampah berbahaya mengandung bahan beracun, korosif, atau reaktif yang dapat merusak lingkungan dan membahayakan kesehatan. Contohnya termasuk limbah medis, baterai bekas, bahan kimia rumah tangga, dan limbah elektronik. Penanganannya memerlukan prosedur khusus untuk menghindari pencemaran dan keracunan. Diperlukan fasilitas pengelolaan limbah berbahaya untuk mencegah dampak negatif.")
+
+@bot.command()
+async def funfact(ctx):
+    await ctx.send("Di dunia, sampah meningkat pesat, dengan 2,01 miliar ton sampah padat dihasilkan tiap tahun. Proyeksi tahun 2050, volume sampah bisa mencapai 3,4 miliar ton. Di Indonesia, 18,35 juta ton sampah dihasilkan pada 2024, namun 41% masih belum terkelola dengan baik. Indonesia juga penyumbang sampah plastik terbesar ketiga.")
+
+@bot.command()
+async def sampah_3R(ctx):
+    await ctx.send("3R itu prinsip pengelolaan sampah: Reduce (kurangi sampah yang dihasilkan), Reuse (gunakan barang lagi yang masih bisa dipakai), dan Recycle (daur ulang sampah yang bisa dimanfaatkan). Dengan 3R, kita bisa bantu lingkungan, mengurangi sampah, dan menghemat sumber daya.")
+
+@bot.command()
+async def rules_sampah(ctx):
+    await ctx.send("""ini adalah materi tentang sampah, jika kamu ingin mencari tau lebih banyak tentang sampah ketik:
+-sampah : untuk mengetahui apa itu sampah
+-organik : untuk mengetahui sampah organik dan contohnya
+-anorganik : untuk mengetahui sampah anorganik dan contohnya
+-sampah_berbahaya : untuk mengetahui sampah berbahaya dan contohnya
+-funfact : untuk mengetahui fakta sampah di dunia dan indonesia
+-sampah_3R : untuk mengetahui apa itu 3R di dalam sampah""")
+
+
+bot.run("TOKEN")
